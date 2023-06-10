@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>Résultat de la segmentation d'image</title>
+
+    <script src="https://cdn.socket.io/4.2.0/socket.io.min.js"></script>
+
+    <script>
+
+      const socket = io.connect('http://localhost:5000');
+
+      socket.on('update_result', function(data) {
+        updateElements(data);
+      });
+
+      function updateElements(data) {
+        console.log("Received update:", data);
+        document.getElementById('original_img').src = "data:image/png;base64," + data.original_img;
+        document.getElementById('predicted_img').src = "data:image/png;base64," + data.predicted_img;
+        document.getElementById('labeled_img').src = "data:image/png;base64," + data.labeled_img;
+        document.getElementById('message').innerHTML = data.message;
+      }
+
+    </script>
+
+    <style>
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+      }
+
+      .grid-item {
+        text-align: center;
+      }
+
+      .grid-item img {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h2 style="text-align: center">{{ message }}</h2>
+    <div class="grid-container">
+      <div class="grid-item">
+        <h3>Image d'origine</h3>
+        <img src="data:image/png;base64,{{ original_img }}" alt="original_img" />
+      </div>
+      <div class="grid-item">
+        <h3>Image segmentée</h3>
+        <img src="data:image/png;base64,{{ predicted_img }}" alt="predicted_img" />
+      </div>
+      <div class="grid-item">
+        <h3>Image labélisée</h3>
+        <img src="data:image/png;base64,{{ labeled_img }}" alt="labeled_img" />
+      </div>
+    </div>
+  </body>
+</html>
