@@ -232,4 +232,3 @@ dependencies:
       - xxhash==3.1.0
       - yarl==1.8.2
       - zipp==3.11.0
-prefix: C:\Users\sacha\anaconda3\envs\deepLearningVehicule
